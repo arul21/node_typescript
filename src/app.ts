@@ -1,14 +1,14 @@
-import express, { Request, Response } from "express";
-import dotenv from "dotenv";
+import express, { Request, Response } from 'express';
+import dotenv from 'dotenv';
 dotenv.config();
-import config from "config";
-import responseTime from "response-time";
-import connect from "./utils/connect";
-import logger from "./utils/logger";
-import routes from "./routes";
-import { restResponseTimeHistogram, startMetricsServer } from "./utils/metrics";
+import config from 'config';
+import responseTime from 'response-time';
+import connect from './utils/connect';
+import logger from './utils/logger';
+import routes from '../src/routes/index';
+import { restResponseTimeHistogram, startMetricsServer } from './utils/metrics';
 
-const port = config.get<number>("port");
+const port = config.get<number>('port');
 
 const app = express();
 
@@ -23,10 +23,10 @@ app.use(
           route: req.route.path,
           status_code: res.statusCode,
         },
-        time * 1000
+        time * 1000,
       );
     }
-  })
+  }),
 );
 
 app.listen(port, async () => {
