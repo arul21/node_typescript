@@ -3,6 +3,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 import config from 'config';
 import responseTime from 'response-time';
+import logs from 'morgan';
+import helmet from 'helmet';
 import connect from './utils/connect';
 import logger from './utils/logger';
 import routes from '../src/routes/index';
@@ -13,7 +15,9 @@ const port = config.get<number>('port');
 const app = express();
 
 app.use(express.json());
-
+app.use(logs('dev'));
+app.use(helmet());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   responseTime((req: Request, res: Response, time: number) => {
     if (req?.route?.path) {
